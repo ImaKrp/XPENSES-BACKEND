@@ -1,7 +1,7 @@
-import prismaClient from "../prisma";
+import prismaClient from "../../prisma";
 import { sign } from "jsonwebtoken";
 
-class AuthenticateUserService {
+class CreateUserService {
   async execute(email: string, password: string) {
     let user = await prismaClient.user.findFirst({
       where: {
@@ -9,12 +9,17 @@ class AuthenticateUserService {
       },
     });
 
-    if (!user) {
-      return 'email';
+    if (user) {
+      return "email";
     }
 
-    if(user.password !== password) {
-      return 'password';
+    if (!user) {
+      user = await prismaClient.user.create({
+        data: {
+          email: email,
+          password: password,
+        },
+      });
     }
 
     const token = sign(
@@ -34,4 +39,4 @@ class AuthenticateUserService {
   }
 }
 
-export { AuthenticateUserService };
+export { CreateUserService };

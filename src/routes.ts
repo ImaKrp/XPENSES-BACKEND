@@ -1,26 +1,37 @@
 import { Router } from "express";
-import { AuthenticateUserController } from "./controllers/AuthenticateUserController";
-import { CreateUserController } from "./controllers/CreateUserController";
-import { CreateTransactionController } from "./controllers/CreateTransactionController";
+import { UserController } from "./controllers/UserController";
+import { TransactionsController } from "./controllers/TransactionsController";
 import { ensureAuthenticated } from "./middleWare/ensureAuthenticated";
-import { GetAllTransactionsController } from "./controllers/GetAllTransactionsController";
 
 const router = Router();
 
-router.post("/authenticate", new AuthenticateUserController().handle);
+//User
 
-router.post("/register", new CreateUserController().handle);
+router.post("/authenticate", new UserController().authenticate);
+
+router.post("/register", new UserController().create);
+
+router.put("/updateUser", ensureAuthenticated, new UserController().update);
+
+
+//Transactions
 
 router.post(
   "/transaction",
   ensureAuthenticated,
-  new CreateTransactionController().handle
+  new TransactionsController().create
+);
+
+router.delete(
+  "/transaction",
+  ensureAuthenticated,
+  new TransactionsController().delete
 );
 
 router.get(
   "/transaction/list",
   ensureAuthenticated,
-  new GetAllTransactionsController().handle
+  new TransactionsController().list
 );
 
 export { router };

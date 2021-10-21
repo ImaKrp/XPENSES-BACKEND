@@ -19,10 +19,12 @@ model User {
 
 model Transaction {
   id         String   @id @default(uuid())
+  alias      String
   value      Float
   created_at DateTime @default(now())
   user       User     @relation(fields: [user_id], references: [id])
   user_id    String
+  deleted    Boolean  @default(false)
 
   @@map("transactions")
 }
