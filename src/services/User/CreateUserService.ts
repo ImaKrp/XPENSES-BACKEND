@@ -22,20 +22,7 @@ class CreateUserService {
       });
     }
 
-    const token = sign(
-      {
-        user: {
-          email: user.email,
-          id: user.id,
-        },
-      },
-      process.env.JWT_SECRET,
-      {
-        subject: user.id,
-      }
-    );
-
-    return { token, user };
+    return { user };
   }
 }
 
