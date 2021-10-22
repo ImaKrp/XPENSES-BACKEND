@@ -10,11 +10,11 @@ class AuthenticateUserService {
     });
 
     if (!user) {
-      return 'email';
+      return {"error": "email"};;
     }
 
     if(user.password !== password) {
-      return 'password';
+      return {"error": "password"};
     }
 
     const token = sign(

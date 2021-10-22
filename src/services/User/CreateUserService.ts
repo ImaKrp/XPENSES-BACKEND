@@ -10,7 +10,7 @@ class CreateUserService {
     });
 
     if (user) {
-      return "email";
+      return {"error": "email"};
     }
 
     if (!user) {

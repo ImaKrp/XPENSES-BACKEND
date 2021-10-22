@@ -27,6 +27,6 @@ export function ensureAuthenticated(
 
     return next();
   } catch (err) {
-    return response.status(401).json({ errorCode: "token.expired" });
+    return response.status(401).json({ errorCode: err });
   }
 }
