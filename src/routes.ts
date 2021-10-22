@@ -23,7 +23,7 @@ router.post(
 );
 
 router.delete(
-  "/transaction",
+  "/transaction/delete",
   ensureAuthenticated,
   new TransactionsController().delete
 );

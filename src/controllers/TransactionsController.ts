@@ -3,6 +3,10 @@ import { CreateTransactionService } from "../services/Transactions/CreateTransac
 import { GetAllTransactionsServices } from "../services/Transactions/GetAllTransactionsServices";
 import { DeleteTransactionService } from "../services/Transactions/DeleteTransactionService";
 
+interface IQuery {
+  id: string;
+}
+
 class TransactionsController {
   async create(req: Request, res: Response) {
     const { alias, transaction } = req.body;
@@ -16,11 +20,13 @@ class TransactionsController {
   }
 
   async delete(req: Request, res: Response) {
-    const { id } = req.body;
+    const { id } = req.query;
 
+    const convertedId = String(id);
+    
     const service = new DeleteTransactionService();
 
-    const result = await service.execute(id);
+    const result = await service.execute(convertedId);
 
     return res.json(result);
   }
