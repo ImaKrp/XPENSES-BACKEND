@@ -10,6 +10,8 @@ class UserController {
     const service = new AuthenticateUserService();
     try {
       const result = await service.execute(email, password);
+      if (result.code === 400)
+        return res.status(400).json({ error: result.error });
       return res.json(result);
     } catch (err) {
       return res.status(401).json({ error: err.message });
@@ -21,6 +23,8 @@ class UserController {
     const service = new CreateUserService();
     try {
       const result = await service.execute(email, password);
+      if (result.code === 400)
+        return res.status(400).json({ error: result.error });
       return res.json(result);
     } catch (err) {
       return res.status(401).json({ error: err.message });
