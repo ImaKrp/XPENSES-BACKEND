@@ -10,11 +10,11 @@ class UserController {
     const service = new AuthenticateUserService();
     try {
       const result = await service.execute(email, password);
-      if (result.code === 400)
-        return res.status(400).json({ error: result.error });
       return res.json(result);
     } catch (err) {
-      return res.status(401).json({ error: err.message });
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
     }
   }
   async create(req: Request, res: Response) {
@@ -23,11 +23,11 @@ class UserController {
     const service = new CreateUserService();
     try {
       const result = await service.execute(email, password);
-      if (result.code === 400)
-        return res.status(400).json({ error: result.error });
       return res.json(result);
     } catch (err) {
-      return res.status(401).json({ error: err.message });
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
     }
   }
   async update(req: Request, res: Response) {

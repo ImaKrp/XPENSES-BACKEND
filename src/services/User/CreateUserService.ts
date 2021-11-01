@@ -10,7 +10,7 @@ class CreateUserService {
     });
 
     if (user) {
-      return { error: "email", code: 400 };
+      throw { error: "email", code: 400 };
     }
 
     if (!user) {
