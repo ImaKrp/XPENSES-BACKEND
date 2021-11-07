@@ -3,6 +3,11 @@ import { sign } from "jsonwebtoken";
 
 class AuthenticateUserService {
   async execute(email: string, password: string) {
+
+    if(!email || !password){
+      throw { error: "Fields are required: 'Email', 'Password'", code: 400 };
+    }
+
     let user = await prismaClient.user.findFirst({
       where: {
         email: email,

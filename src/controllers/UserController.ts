@@ -39,7 +39,9 @@ class UserController {
       const result = await service.execute(user_id, region, email, password);
       return res.json(result);
     } catch (err) {
-      return res.status(401).json({ error: err.message });
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
     }
   }
 }
