@@ -10,7 +10,8 @@ class DeleteTransactionService {
         deleted: true,
       },
     });
-
+    
+    delete transactions.user_id;
     return transactions;
   }
 }

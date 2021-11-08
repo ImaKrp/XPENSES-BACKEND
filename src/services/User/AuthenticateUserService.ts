@@ -3,8 +3,7 @@ import { sign } from "jsonwebtoken";
 
 class AuthenticateUserService {
   async execute(email: string, password: string) {
-
-    if(!email || !password){
+    if (!email || !password) {
       throw { error: "Fields are required: 'Email', 'Password'", code: 400 };
     }
 
@@ -34,7 +33,8 @@ class AuthenticateUserService {
         subject: user.id,
       }
     );
-
+    
+    delete user.password;
     return { token, user };
   }
 }

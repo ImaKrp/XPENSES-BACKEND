@@ -33,7 +33,8 @@ class UpdateUserService {
         ...data,
       },
     });
-
+    
+    delete user.password;
     return user;
   }
 }

@@ -27,6 +27,7 @@ class CreateUserService {
       });
     }
 
+    delete user.password;
     return { user };
   }
 }

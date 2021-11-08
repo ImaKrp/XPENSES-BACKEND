@@ -5,14 +5,18 @@ class GetAllTransactionsServices {
     const transactions = await prismaClient.transaction.findMany({
       where: {
         user_id: user_id,
-        deleted: false
+        deleted: false,
       },
       orderBy: {
         created_at: "desc",
       },
     });
-
-    return transactions;
+    
+    const allTransactions = transactions.map((transaction) => {
+      delete transaction.user_id;
+      return transaction;
+    });
+    return allTransactions;
   }
 }
 

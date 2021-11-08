@@ -14,21 +14,30 @@ class TransactionsController {
 
     const service = new CreateTransactionService();
 
-    const result = await service.execute(alias, transaction, user_id);
-
-    return res.json(result);
+    try {
+      const result = await service.execute(alias, transaction, user_id);
+      return res.json(result);
+    } catch (err) {
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
+    }
   }
 
   async delete(req: Request, res: Response) {
     const { id } = req.query;
 
     const convertedId = String(id);
-    
+
     const service = new DeleteTransactionService();
-
-    const result = await service.execute(convertedId);
-
-    return res.json(result);
+    try {
+      const result = await service.execute(convertedId);
+      return res.json(result);
+    } catch (err) {
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
+    }
   }
 
   async list(req: Request, res: Response) {
@@ -36,9 +45,14 @@ class TransactionsController {
 
     const service = new GetAllTransactionsServices();
 
-    const result = await service.execute(user_id);
-
-    return res.json(result);
+    try {
+      const result = await service.execute(user_id);
+      return res.json(result);
+    } catch (err) {
+      return res
+        .status(err.code ?? 401)
+        .json({ error: err.error ?? err.message });
+    }
   }
 }
 

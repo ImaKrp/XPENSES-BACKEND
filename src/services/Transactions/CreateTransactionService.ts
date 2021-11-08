@@ -9,7 +9,8 @@ class CreateTransactionService {
         user_id,
       },
     });
-
+    
+    delete transactions.user_id;
     return transactions;
   }
 }
