@@ -15,15 +15,27 @@ class UpdateUserService {
   ) {
     if (!region && !email && !password) {
       throw {
-        error: "Some field is required: 'Region', 'Email', 'Password'",
+        error: "Some field is required: Region, Email, Password",
         code: 400,
       };
     }
 
     let data: IData = {};
-    if (email) data.email = email;
-    if (region) data.region = region;
-    if (password) data.password = password;
+    email && (data.email = email);
+    region && (data.region = region);
+    password && (data.password = password);
+
+    if (email) {
+      const user = await prismaClient.user.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      console.log(user);
+      if (user && user.id !== user_id) {
+        throw { error: "email", code: 400 };
+      }
+    }
 
     const user = await prismaClient.user.update({
       where: {
@@ -33,7 +45,7 @@ class UpdateUserService {
         ...data,
       },
     });
-    
+
     delete user.password;
     return user;
   }

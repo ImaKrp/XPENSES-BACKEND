@@ -3,8 +3,16 @@ import { sign } from "jsonwebtoken";
 
 class AuthenticateUserService {
   async execute(email: string, password: string) {
-    if (!email || !password) {
-      throw { error: "Fields are required: 'Email', 'Password'", code: 400 };
+    const errors: String[] = [];
+    !email && errors.push("Email");
+    !password && errors.push("Password");
+
+    if (errors.length !== 0) {
+      if (errors.length === 1) {
+        throw { error: `Field is required: ${errors[0]}`, code: 400 };
+      } else {
+        throw { error: `Fields are required: ${errors}`, code: 400 };
+      }
     }
 
     let user = await prismaClient.user.findFirst({
@@ -33,7 +41,7 @@ class AuthenticateUserService {
         subject: user.id,
       }
     );
-    
+
     delete user.password;
     return { token, user };
   }
