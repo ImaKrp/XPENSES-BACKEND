@@ -13,13 +13,6 @@ class UpdateUserService {
     email?: string,
     password?: string
   ) {
-    if (!region && !email && !password) {
-      throw {
-        error: "Some field is required: Region, Email, Password",
-        code: 400,
-      };
-    }
-
     let data: IData = {};
     email && (data.email = email);
     region && (data.region = region);

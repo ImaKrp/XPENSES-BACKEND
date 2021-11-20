@@ -12,6 +12,19 @@ class TransactionsController {
     const { alias, transaction } = req.body;
     const { user_id } = req;
 
+    const errors: String[] = [];
+    !alias && errors.push("Alias");
+    !transaction && errors.push("Transaction (Value)");
+
+    if (errors.length !== 0) {
+      return res.status(400).json({
+        error:
+          errors.length === 1
+            ? `Field is required: ${errors[0]}`
+            : `Fields are required: ${errors}`,
+      });
+    }
+
     const service = new CreateTransactionService();
 
     try {
