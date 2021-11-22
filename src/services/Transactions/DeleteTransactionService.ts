@@ -2,7 +2,15 @@ import prismaClient from "../../prisma";
 
 class DeleteTransactionService {
   async execute(id: string) {
-    const transactions = await prismaClient.transaction.update({
+    let transaction = await prismaClient.transaction.findFirst({
+      where: {
+        id: id,
+      },
+    });
+    if (transaction.deleted === true) {
+      throw { error: "Transaction already deleted", code: 406 };
+    }
+    transaction = await prismaClient.transaction.update({
       where: {
         id: id,
       },
@@ -10,9 +18,9 @@ class DeleteTransactionService {
         deleted: true,
       },
     });
-    
-    delete transactions.user_id;
-    return transactions;
+
+    delete transaction.user_id;
+    return transaction;
   }
 }
 
