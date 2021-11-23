@@ -40,11 +40,9 @@ class TransactionsController {
   async delete(req: Request, res: Response) {
     const { id } = req.query;
 
-    const convertedId = String(id);
-
     const service = new DeleteTransactionService();
     try {
-      const result = await service.execute(convertedId);
+      const result = await service.execute(String(id));
       return res.json(result);
     } catch (err) {
       return res
