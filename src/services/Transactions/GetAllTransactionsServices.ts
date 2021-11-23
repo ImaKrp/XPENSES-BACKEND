@@ -1,5 +1,11 @@
 import prismaClient from "../../prisma";
 
+interface ITransaction {
+  alias: string;
+  value: number;
+  user_id: string;
+}
+
 class GetAllTransactionsServices {
   async execute(user_id: string) {
     const transactions = await prismaClient.transaction.findMany({
@@ -11,8 +17,8 @@ class GetAllTransactionsServices {
         created_at: "desc",
       },
     });
-    
-    const allTransactions = transactions.map((transaction) => {
+
+    const allTransactions = transactions.map((transaction: ITransaction) => {
       delete transaction.user_id;
       return transaction;
     });
