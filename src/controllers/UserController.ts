@@ -46,9 +46,6 @@ class UserController {
       });
     }
 
-    if (!email) {
-    }
-
     const service = new CreateUserService();
 
     try {
