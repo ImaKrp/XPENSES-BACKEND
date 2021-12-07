@@ -1,5 +1,6 @@
 import prismaClient from "../../prisma";
 import { sign } from "jsonwebtoken";
+import bcrypt from 'bcrypt'
 
 class AuthenticateUserService {
   async execute(email: string, password: string) {
@@ -13,7 +14,10 @@ class AuthenticateUserService {
       throw { error: "email", code: 400 };
     }
 
-    if (user.password !== password) {
+    const validateHash = await bcrypt.compare(password, user.password);
+
+
+    if (!validateHash) {
       throw { error: "password", code: 400 };
     }
 
