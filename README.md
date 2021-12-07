@@ -34,7 +34,7 @@ And you're ready to go.
 Run them:
 
 ```sh
-yarn prisma migrate
+yarn prisma migrate dev
 ```
 
 And your database is setted.
